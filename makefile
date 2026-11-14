@@ -1,7 +1,7 @@
 execute: main.o BinarySearchTree.o Node.o
 	g++ -o execute main.o BinarySearchTree.o Node.o
 
-main.o: BinarySearchTree.h main.cpp
+main.o: BinarySearchTree.h main.cpp Node.h
 	g++ -c main.cpp
 
 BinarySearchTree.o: BinarySearchTree.h BinarySearchTree.cpp Node.h

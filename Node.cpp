@@ -1,17 +1,20 @@
 #include "Node.h"
 Node::Node(){
     data = 0;
-    next = nullptr;
+    left = nullptr;
+    right = nullptr;
 }
 
-Node::Node(int d, Node* n){
+Node::Node(int d, Node* l, Node* r){
     data = d;
-    next = n;
+    left = l;
+    right = r;
 }
 
 Node::Node(const Node& rhs){
     data = rhs.data;
-    next = nullptr;
+    left = nullptr;
+    right = nullptr;
 }
 
 int Node::getData(){
@@ -22,10 +25,15 @@ void Node::setData(int d){
     data = d;
 }
 
-Node* Node::getNext(){
-    return next;
+Node* Node::getLeft(){
+    return left;
 }
-
-void Node::setNext(Node* n){
-    next = n;
+Node* Node::getRight(){
+    return right;
+}
+void Node::setLeft(Node* l){
+    left = l;
+}
+void Node::setRight(Node* r){
+    right = r;
 }
