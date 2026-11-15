@@ -32,7 +32,7 @@ int main(){
     cout << "Deleted item (expected output: 0): " << b.deleteValue(2) << endl;
     cout << "Count items after failed deletion (expected output: 4) : " << b.countItems() << endl;
     cout << "Deleted itew (expected output: 1): " << b.deleteValue(4) << endl;
-    cout << "Count items after failsuccessful deletion (expected output: 3): " << b.countItems() << endl;
+    cout << "Count items after successful deletion (expected output: 3): " << b.countItems() << endl;
     cout << "In Order display after deletion: ";
     b.displayInorder();
     cout << endl << endl;
