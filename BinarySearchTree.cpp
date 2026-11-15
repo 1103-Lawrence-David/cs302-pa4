@@ -97,26 +97,33 @@ void BinarySearchTree::displayPostorder(){
 }
 
 void BinarySearchTree::displayInorderHelper(Node* n){
-    if(n != nullptr){
-        displayInorderHelper(n->getLeft());
-        cout << n->getData() << endl;
-        displayInorderHelper(n->getRight());
+    if(n == nullptr){
+        return;
     }
+    displayInorderHelper(n->getLeft());
+    cout << n->getData() << ", ";
+    displayInorderHelper(n->getRight());
+    
 }
 
 void BinarySearchTree::displayPreorderHelper(Node* n){
-    if(n != nullptr){
-        cout << n->getData() << endl;
-        displayInorderHelper(n->getLeft());
-        displayInorderHelper(n->getRight());
+    if(n == nullptr){
+        return;
     }
+    cout << n->getData() << ", ";
+    displayPreorderHelper(n->getLeft());
+    displayPreorderHelper(n->getRight());
+    
 }
 void BinarySearchTree::displayPostorderHelper(Node* n){
-    if(n != nullptr){
-        displayInorderHelper(n->getLeft());
-        displayInorderHelper(n->getRight());
-        cout << n->getData() << endl;
+    if(n == nullptr){
+        return;
     }
+    
+    displayPostorderHelper(n->getLeft());
+    displayPostorderHelper(n->getRight());
+    cout << n->getData() << ", ";
+    
 }
 
 int BinarySearchTree::findMin(){
@@ -163,15 +170,59 @@ Node* BinarySearchTree::findMaxNode(Node* n){
     return maxNode;
 }
 
+void BinarySearchTree::treeToArray(Node* n, int& i, int* arr){
+    if(n == nullptr){
+        return;
+    }
+    treeToArray(n->getLeft(), i, arr);
+    arr[i] = n->getData();
+    i++;
+    treeToArray(n->getRight(), i, arr);
+    
+}
+
 void BinarySearchTree::balanceTree(){
+    int arr[countItems()];
+    int i = 0;
+    treeToArray(root, i, arr);
+
+    root = buildTree(arr, 0, countItems()-1);
     
 }
 
-void BinarySearchTree::saveTree(string){
+Node* BinarySearchTree::buildTree(int* arr, int start, int end){
+    if(start > end){
+        return nullptr;
+    }
+    int mid = (start+end)/2;
+    Node* r = new Node();
+    r->setData(arr[mid]);
 
+    r->setLeft(buildTree(arr,start,mid-1));
+    r->setRight(buildTree(arr,mid+1,end));
+    return r;
 }
-void BinarySearchTree::saveTreeHelper(Node*, ofstream&){
+
+
+void BinarySearchTree::saveTree(string fname){
+    ofstream out(fname, ios::app);
+    if(!out.is_open()){
+        cout << "error opening file" << endl;
+        return;
+    }
+    saveTreeHelper(root, out);
+    out << endl;
+    out.close();
     
+}
+
+void BinarySearchTree::saveTreeHelper(Node* n, ofstream& out){
+    if(n == nullptr){
+        return;
+    }
+    out << n->getData() << " ";
+    saveTreeHelper(n->getLeft(), out);
+    saveTreeHelper(n->getRight(), out);
 }
     
 int BinarySearchTree::countItems(){

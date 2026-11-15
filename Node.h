@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <fstream>
+
 using namespace std;
 
 #ifndef NODE_H

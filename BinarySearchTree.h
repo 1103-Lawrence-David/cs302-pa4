@@ -1,6 +1,7 @@
 #include "Node.h"
 #ifndef BINARYSEARCHTREE_H
 #define BINARYSEARCHTREE_H
+#include <fstream>
 
 
 class BinarySearchTree{
@@ -36,11 +37,16 @@ class BinarySearchTree{
         int findMax();
         Node* findMaxNode(Node*);
 
-
+        //works
+        void treeToArray(Node*, int&, int*);
         void balanceTree();
+        Node* buildTree(int*, int, int);
+
+        //works
         void saveTree(string);
         void saveTreeHelper(Node*, ofstream&);
         
+        //works well enough
         int countItems();
         int countHelper(Node* node);
 
