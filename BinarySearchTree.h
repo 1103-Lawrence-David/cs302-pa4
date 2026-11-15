@@ -9,17 +9,28 @@ class BinarySearchTree{
     public:
         BinarySearchTree();
 
+        //insert seems to be working
         void insert(int);
         Node* insertHelper(Node* n, int val);
-        bool search(int); //iMPLEMENTED, MAY NEED TWEAKING
+
+        //search seems to be working
+        bool search(int); 
         bool searchHelper(Node*, int);
+
+        //seems to work properly
         bool deleteValue(int);
         Node* deleteHelper(Node*, int);
         
+        //all displays working properly
         void displayInorder();
         void displayPreorder();
         void displayPostorder();
 
+        void displayInorderHelper(Node*);
+        void displayPreorderHelper(Node*);
+        void displayPostorderHelper(Node*);
+
+        //works properly
         int findMin();
         Node* findMinNode(Node*);
         int findMax();
@@ -29,6 +40,7 @@ class BinarySearchTree{
         void balanceTree();
         void saveTree(string);
         void saveTreeHelper(Node*, ofstream&);
+        
         int countItems();
         int countHelper(Node* node);
 

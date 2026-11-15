@@ -4,29 +4,41 @@ BinarySearchTree::BinarySearchTree(){
     root = nullptr;
 }
 
-void BinarySearchTree::insert(int){
-
+void BinarySearchTree::insert(int value){
+    root = insertHelper(root, value);
 }
-Node* BinarySearchTree::insertHelper(Node* n, int val){
 
+Node* BinarySearchTree::insertHelper(Node* n, int val){
+    if(n == nullptr){
+        Node* newNode = new Node();
+        newNode->setData(val);
+        return newNode;
+    }
+    if(val < n->getData()){
+        n->setLeft(insertHelper(n->getLeft(), val));
+    }
+    if(val > n->getData()){
+        n->setRight(insertHelper(n->getRight(), val));
+    }
+    return n;
 }
 
 bool BinarySearchTree::search(int val){
     return searchHelper(root, val);
 }
 
-bool BinarySearchTree::searchHelper(Node* root, int value){
-    if(root == nullptr){
+bool BinarySearchTree::searchHelper(Node* r, int value){
+    if(r == nullptr){
         return false;
     }
-    if(root->getData() == value){
+    if(r->getData() == value){
         return true;
     }
-    if(root->getData() > value){
-        return searchHelper(root->getLeft(), value);
+    if(r->getData() > value){
+        return searchHelper(r->getLeft(), value);
     }
-    if(root->getData() < value){
-        return searchHelper(root->getRight(), value);
+    if(r->getData() < value){
+        return searchHelper(r->getRight(), value);
     }
     cout << "error in search" << endl; //debugging
     return false;
@@ -40,48 +52,71 @@ bool BinarySearchTree::deleteValue(int value){
     return true;
 }
 
-Node* BinarySearchTree::deleteHelper(Node* root, int value){
-    if(root == nullptr){
+Node* BinarySearchTree::deleteHelper(Node* r, int value){
+    if(r == nullptr){
         return nullptr;
     }
-    if(root->getData() == value){
-        if(root->getLeft() == nullptr && root->getRight() == nullptr){
-            delete root;
+    if(r->getData() == value){
+        if(r->getLeft() == nullptr && r->getRight() == nullptr){
+            delete r;
             return nullptr;
         }
-        if(root->getLeft() == nullptr){
-            Node* temp = root->getRight();
-            delete root;
+        if(r->getLeft() == nullptr){
+            Node* temp = r->getRight();
+            delete r;
             return temp;
         }
-        if(root->getRight() == nullptr){
-            Node* temp = root->getLeft();
-            delete root;
+        if(r->getRight() == nullptr){
+            Node* temp = r->getLeft();
+            delete r;
             return temp;
         }
-        Node* successor = findMinNode(root->getRight());
-        root->setData(successor->getData());
-        root->setRight(deleteHelper(root->getRight(), successor->getData()));
+        Node* successor = findMinNode(r->getRight());
+        r->setData(successor->getData());
+        r->setRight(deleteHelper(r->getRight(), successor->getData()));
     }
-    if(root->getData() > value){
-        return deleteHelper(root->getLeft(), value);
+    if(r->getData() > value){
+        r->setLeft(deleteHelper(r->getLeft(), value));
     }
-    if(root->getData() < value){
-        return deleteHelper(root->getRight(), value);
+    if(r->getData() < value){
+        r->setRight(deleteHelper(r->getRight(), value));
     }
-    return root;
+    return r;
 }
         
 void BinarySearchTree::displayInorder(){
-
+    displayInorderHelper(root);
 }
 
 void BinarySearchTree::displayPreorder(){
-
+    displayPreorderHelper(root);
 }
 
 void BinarySearchTree::displayPostorder(){
+    displayPostorderHelper(root);
+}
 
+void BinarySearchTree::displayInorderHelper(Node* n){
+    if(n != nullptr){
+        displayInorderHelper(n->getLeft());
+        cout << n->getData() << endl;
+        displayInorderHelper(n->getRight());
+    }
+}
+
+void BinarySearchTree::displayPreorderHelper(Node* n){
+    if(n != nullptr){
+        cout << n->getData() << endl;
+        displayInorderHelper(n->getLeft());
+        displayInorderHelper(n->getRight());
+    }
+}
+void BinarySearchTree::displayPostorderHelper(Node* n){
+    if(n != nullptr){
+        displayInorderHelper(n->getLeft());
+        displayInorderHelper(n->getRight());
+        cout << n->getData() << endl;
+    }
 }
 
 int BinarySearchTree::findMin(){
@@ -94,11 +129,11 @@ int BinarySearchTree::findMin(){
 }
 
 Node* BinarySearchTree::findMinNode(Node* n){
-    if(root == nullptr){
+    if(n == nullptr){
         return nullptr;
     }
-    Node* minNode = root;
-    Node* leftMin = findMinNode(root->getLeft());
+    Node* minNode = n;
+    Node* leftMin = findMinNode(n->getLeft());
 
     if(leftMin != nullptr && leftMin->getData() < minNode->getData()){
         minNode = leftMin;
@@ -115,17 +150,17 @@ int BinarySearchTree::findMax(){
     }
 }
 
-Node* BinarySearchTree::findMaxNode(Node*){
-    if(root == nullptr){
+Node* BinarySearchTree::findMaxNode(Node* n){
+    if(n == nullptr){
         return nullptr;
     }
-    Node* minNode = root;
-    Node* rightMin = findMinNode(root->getRight());
+    Node* maxNode = n;
+    Node* rightMax = findMaxNode(n->getRight());
 
-    if(rightMin != nullptr && rightMin->getData() < minNode->getData()){
-        minNode = rightMin;
+    if(rightMax != nullptr && rightMax->getData() > maxNode->getData()){
+        maxNode = rightMax;
     }
-    return minNode;
+    return maxNode;
 }
 
 void BinarySearchTree::balanceTree(){
